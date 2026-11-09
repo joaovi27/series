@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Animais Cadastrados</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #e8e8e8;
+            color: #222;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: black;
+            margin-bottom: 30px;
+            font-size: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #7777e0;
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            color: #333;
+        }
+
+        tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        a {
+            color: #7777e0;
+            text-decoration: none;
+        }
+
+        .novo {
+            display: inline-block;
+            background-color: #7777e0;
+            color: white;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #7777e0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        button:hover, .novo:hover {
+            background-color: #6262c5;
+        }
+
+        td form {
+            display: inline;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 600px;
+                font-size: 13px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Animais Cadastrados</h1>
+
+        <a class="novo" th:href="@{/paginas/animais/nova}">
+            Novo Animal
+        </a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Espécie</th>
+                    <th>Porte</th>
+                    <th>Tutor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="animal : ${animais}">
+                    <td th:text="${animal.nome}"></td>
+                    <td th:text="${animal.especie}"></td>
+                    <td th:text="${animal.porte}"></td>
+                    <td th:text="${animal.tutor.nome}"></td>
+
+                    <td>
+                        <a th:href="@{/paginas/animais/{id}/editar(id=${animal.id})}">
+                            Editar
+                        </a>
+
+                        <form th:action="@{/paginas/animais/{id}/remover(id=${animal.id})}"
+                              method="post">
+                            <button type="submit">Remover</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 20px;">
+            <a th:href="@{/paginas/tutores}">Ver clientes</a>
+        </p>
+    </div>
+</body>
+</html>
