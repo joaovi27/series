@@ -10,6 +10,8 @@ public interface TutorDAO {
 	    void salvar(Tutor tutor);
 	    void atualizar(Tutor tutor);
 	    void remover(Long id);
+	    List<Tutor> listarPorTelefone(Integer telefone);
+
 }
 
 

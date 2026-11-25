@@ -48,4 +48,13 @@ public class AnimalDAOJPA implements AnimalDAO {
             em.remove(animal);
         }
     }
+    
+    @Override
+    public List<Animal> listarPorTutor(Long tutorId) {
+        return em
+            .createQuery("SELECT a FROM Animal a WHERE a.tutor.id = :tutorId ORDER BY a.nome", Animal.class)
+            .setParameter("tutorId", tutorId)
+            .getResultList();
+    }
+       
 }

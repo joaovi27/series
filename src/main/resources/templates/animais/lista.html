@@ -145,8 +145,8 @@
                     <td th:text="${animal.tutor.nome}"></td>
 
                     <td>
-                        <a th:href="@{/paginas/animais/{id}/editar(id=${animal.id})}">
-                            Editar
+                        <a th:href="@{/paginas/animais/{id}/editar(id=${animal.id})}"> <!-- edicao do pet -->
+                            Editar 
                         </a>
 
                         <form th:action="@{/paginas/animais/{id}/remover(id=${animal.id})}"

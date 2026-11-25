@@ -1,12 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Séries Cadastradas</title>
-
-    <style>
+<head><meta charset="UTF-8"><title>Detalhes do tutor</title>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -31,7 +26,7 @@
         }
 
         h1 {
-            color: #e50914;
+            color: black;
             margin-bottom: 30px;
             font-size: 30px;
         }
@@ -51,7 +46,7 @@
         }
 
         th {
-            background-color: #e50914;
+            background-color: #7777e0;
             color: white;
             font-size: 16px;
         }
@@ -100,35 +95,46 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Séries Cadastradas</h1>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Plataforma</th>
-                    <th>Ano</th>
-                    <th>Gênero</th>
-					<th>Ação</th>
-                </tr>
-            </thead>
+    <!-- Exibe nome e telefone do tutor -->
+    <h1 th:text="${tutor.nome}"></h1>
 
-            <tbody>
-                <tr th:each="serie : ${series}">
-                    <td th:text="${serie.nome}"></td>
-                    <td th:text="${serie.plataforma}"></td>
-                    <td th:text="${serie.anoLancamento}"></td>
-                    <td th:text="${serie.genero}"></td>
-					<td>
-						<a th:href="@{/paginas/series/{id}/editar(id=${serie.id})}">Editar</a>
-						    <form th:action="@{/paginas/series/{id}/remover(id=${serie.id})}" method="post">
-						        <button type="submit">Remover</button>
-						    </form>	
-					</td>
-				</tr>
-            </tbody>
-        </table>
-    </div>
+    <p th:text="${tutor.telefone}"></p>
+
+    <p th:if="${animais.isEmpty()}">
+        Nenhum animal cadastrado
+    </p>
+
+    <form method="post"
+          th:action="@{/paginas/tutores/{id}/remover(id=${tutor.id})}">
+        <button type="submit">Remover</button>
+    </form>
+
+    <!-- Mensagem de erro ao excluir tutor que possui animais -->
+    <p th:if="${erro}" th:text="${erro}"></p>
+
+    <table th:if="${!animais.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Espécie</th>
+                <th>Porte</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="animal : ${animais}">
+                <td th:text="${animal.nome}"></td>
+                <td th:text="${animal.especie}"></td>
+                <td th:text="${animal.porte}"></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <a href="/paginas/tutores">Voltar</a>
+
 </body>
+
+
 </html>

@@ -113,10 +113,12 @@
 
             <tbody>
                 <tr th:each="tutor : ${tutores}">
-                    <td th:text="${tutor.nome}"></td>
-                    <td th:text="${tutor.telefone}"></td>
+					<td> 
+						<a th:href="@{/paginas/tutores/{id}(id=${tutor.id})}" th:text="${tutor.nome}"></a> <!-- link para visualizacao dos animais selecionando o tutor -->
+					</td>
+                     <td th:text="${tutor.telefone}"></td>
 					<td>
-						<a th:href="@{/paginas/tutores/{id}/editar(id=${tutor.id})}">Editar</a>
+					   <a th:href="@{/paginas/tutores/{id}/editar(id=${tutor.id})}">Editar</a>
 						    <form th:action="@{/paginas/tutores/{id}/remover(id=${tutor.id})}" method="post">
 						        <button type="submit">Remover</button>
 						    </form>	

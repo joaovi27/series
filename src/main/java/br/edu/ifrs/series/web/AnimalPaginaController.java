@@ -1,14 +1,11 @@
 package br.edu.ifrs.series.web;
-
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import br.edu.ifrs.series.dao.AnimalDAO;
-import br.edu.ifrs.series.dao.TutorDAO;
+import br.edu.ifrs.series.servico.AnimalService;
+import br.edu.ifrs.series.servico.TutorService;
 import br.edu.ifrs.series.dominio.Animal;
 import br.edu.ifrs.series.dominio.Especie;
 import br.edu.ifrs.series.dominio.Porte;
@@ -20,24 +17,24 @@ import jakarta.validation.Valid;
 @RequestMapping("/paginas/animais")
 public class AnimalPaginaController {
 
-    private final AnimalDAO animalDAO;
-    private final TutorDAO tutorDAO;
+    private final AnimalService animalService;
+    private final TutorService tutorService;
 
-    public AnimalPaginaController(AnimalDAO animalDAO, TutorDAO tutorDAO) {
-        this.animalDAO = animalDAO;
-        this.tutorDAO = tutorDAO;
+    public AnimalPaginaController(AnimalService animalService, TutorService tutorService) {
+        this.animalService = animalService;
+        this.tutorService = tutorService;
     }
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("animais", animalDAO.listarTodos());
+        model.addAttribute("animais", animalService.listarTodos());
         return "animais/lista";
     }
 
     private void carregarOpcoes(Model model) {
         model.addAttribute("especies", Especie.values());
         model.addAttribute("portes", Porte.values());
-        model.addAttribute("tutores", tutorDAO.listarTodos());
+        model.addAttribute("tutores", tutorService.listarTodos());
     }
 
     @GetMapping("/nova")
@@ -60,14 +57,14 @@ public class AnimalPaginaController {
             return "animais/formulario";
         }
 
-        animalDAO.salvar(animal);
+        animalService.salvar(animal);
         return "redirect:/paginas/animais";
     }
 
     @GetMapping("/{id}/editar")
     public String editar(@PathVariable Long id, Model model) {
 
-        Animal animal = animalDAO.buscarPorId(id);
+        Animal animal = animalService.buscarPorId(id);
 
         if (animal == null) {
             return "redirect:/paginas/animais";
@@ -93,11 +90,11 @@ public class AnimalPaginaController {
         }
 
         if (animal.getId() == null ||
-            animalDAO.buscarPorId(animal.getId()) == null) {
+            animalService.buscarPorId(animal.getId()) == null) {
             return "redirect:/paginas/animais";
         }
 
-        animalDAO.atualizar(animal);
+        animalService.atualizar(animal);
         return "redirect:/paginas/animais";
     }
 
@@ -116,7 +113,7 @@ public class AnimalPaginaController {
             return;
         }
 
-        Tutor tutor = tutorDAO.buscarPorId(
+        Tutor tutor = tutorService.buscarPorId(
             animal.getTutor().getId()
         );
 
@@ -133,7 +130,7 @@ public class AnimalPaginaController {
 
     @PostMapping("/{id}/remover")
     public String remover(@PathVariable Long id) {
-        animalDAO.remover(id);
+        animalService.remover(id);
         return "redirect:/paginas/animais";
     }
 }

@@ -117,13 +117,12 @@
                 <span th:errors="*{nome}"></span>
             </p>
 
-            <p>
-                <label for="telefone">Telefone</label>
-                <input type="tel" id="telefone"
-                       th:field="*{telefone}">
-                <span th:errors="*{telefone}"></span>
-            </p>
-
+			<p>
+			    <label for="telefone">Telefone</label>
+			    <input type="tel" id="telefone" th:field="*{telefone}">
+			    <span th:errors="*{telefone}"></span>
+			    <span th:if="${erro}" th:text="${erro}"></span>
+			</p>
 
             <button type="submit">Cadastrar cliente</button>
         </form>
